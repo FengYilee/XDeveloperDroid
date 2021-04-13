@@ -1,0 +1,6 @@
+package com.lfy.libretrofit.exception
+
+/**
+ * Created by FengYi.Lee<fengyi.li></fengyi.li>@hotmail.com> on 2020/11/24.
+ */
+class ServerResponseException(var code: Int) : Throwable() 
