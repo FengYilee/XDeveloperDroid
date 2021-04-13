@@ -76,15 +76,9 @@ abstract class BaseViewModelFragment<B : ViewDataBinding,VM:BaseViewModel> : Bas
                 .request(callback)
     }
 
-    protected fun requestPermissions(permissions: List<String?>?, callback: OnPermissionCallback?) {
+    protected fun requestPermissions(permissions: Array<String>, callback: OnPermissionCallback?) {
         XXPermissions.with(this)
                 .permission(permissions)
-                .request(callback)
-    }
-
-    protected fun requestPermissions(permissions: Array<String?>, callback: OnPermissionCallback?) {
-        XXPermissions.with(this)
-                .permission(*permissions)
                 .request(callback)
     }
 
