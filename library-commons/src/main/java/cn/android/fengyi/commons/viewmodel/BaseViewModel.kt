@@ -5,34 +5,38 @@ import android.app.Application
 import androidx.annotation.StringRes
 import androidx.lifecycle.*
 import cn.android.fengyi.commons.BaseConstants
+import cn.android.fengyi.commons.SingleLiveEvent
+import java.util.*
+import kotlin.collections.HashMap
 
 abstract class BaseViewModel : ViewModel(), ViewModelLifecycle, ViewBehavior {
 
     //loading视图显示Event
-    var loadingEvent = MutableLiveData<Boolean>()
+    var loadingEvent = SingleLiveEvent<Boolean>()
         private set
 
     //无数据视图显示Event
-    var emptyPageEvent = MutableLiveData<Boolean>()
+    var emptyPageEvent = SingleLiveEvent<Boolean>()
         private set
 
     //toast提示Event
-    var toastEvent = MutableLiveData<Map<String, *>>()
+    var toastEvent = SingleLiveEvent<Map<String, *>>()
         private set
 
     // 不带参数的页面跳转Event
-    var pageNavigationEvent = MutableLiveData<Any>()
+    var pageNavigationEvent = SingleLiveEvent<Any>()
         private set
 
     // 点击系统返回键Event
-    var backPressEvent = MutableLiveData<Any?>()
+    var backPressEvent = SingleLiveEvent<Any?>()
         private set
 
     // 关闭页面Event
-    var finishPageEvent = MutableLiveData<Any?>()
+    var finishPageEvent = SingleLiveEvent<Any?>()
         private set
 
     private lateinit var lifecycleOwner: LifecycleOwner
+
 
     @SuppressLint("StaticFieldLeak")
     lateinit var application: Application
@@ -104,6 +108,8 @@ abstract class BaseViewModel : ViewModel(), ViewModelLifecycle, ViewBehavior {
                 put(BaseConstants.TOAST_KEY_DURATION, duration)
             }
         }
+
+        showToast(map)
     }
 
     protected fun showToast(@StringRes resId: Int) {
@@ -131,6 +137,8 @@ abstract class BaseViewModel : ViewModel(), ViewModelLifecycle, ViewBehavior {
     protected fun finishPage() {
         finishPage(null)
     }
+
+    protected fun getUUID():String = UUID.randomUUID().toString().replace("-","")
 
     companion object{
         @JvmStatic

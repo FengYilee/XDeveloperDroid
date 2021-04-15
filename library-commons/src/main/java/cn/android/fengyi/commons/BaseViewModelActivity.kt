@@ -1,6 +1,7 @@
 package cn.android.fengyi.commons
 
 import android.os.Bundle
+import android.util.Log
 import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -18,9 +19,8 @@ import me.shihao.library.XStatusBarHelper
 abstract class BaseViewModelActivity<B : ViewDataBinding,VM:BaseViewModel> : BaseBindingActivity<B>(),ViewBehavior {
 
     private lateinit var viewModel:VM
+    var count = 0
 
-
-    protected abstract val statusBarColor: Int
 
     private fun injectViewModel(){
         val vm = createViewModel()
@@ -45,7 +45,7 @@ abstract class BaseViewModelActivity<B : ViewDataBinding,VM:BaseViewModel> : Bas
         lifecycle.removeObserver(viewModel)
     }
 
-    protected fun initInternalObserver(){
+    protected open fun initInternalObserver(){
         viewModel.loadingEvent.observe(this, Observer<Boolean> {
             showLoadingUI(it)
         })
@@ -55,6 +55,11 @@ abstract class BaseViewModelActivity<B : ViewDataBinding,VM:BaseViewModel> : Bas
         })
 
         viewModel.toastEvent.observe(this, Observer {
+            Log.i("Observer","${Thread.currentThread().name} - ${++count}")
+            showToast(it)
+        })
+
+        viewModel.pageNavigationEvent.observe(this, Observer {
             navigate(it)
         })
 
@@ -88,8 +93,8 @@ abstract class BaseViewModelActivity<B : ViewDataBinding,VM:BaseViewModel> : Bas
                 .request(callback)
     }
 
-    protected fun initStatusBar() {
-        XStatusBarHelper.tintStatusBar(this, resources.getColor(statusBarColor))
+    protected open fun initStatusBar() {
+        XStatusBarHelper.tintStatusBar(this, resources.getColor(R.color.design_default_color_primary))
     }
 
     override fun showLoadingUI(isShow: Boolean) {
