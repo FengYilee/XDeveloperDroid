@@ -1,11 +1,11 @@
-package com.lfy.libretrofit.observer
+package cn.android.fengyi.net.observer
 
 import android.content.Context
 import android.widget.Toast
+import cn.android.fengyi.net.dialog.LoadingDialogHelper
+import cn.android.fengyi.net.exception.ServerResponseException
 import com.google.gson.JsonParseException
 import com.jakewharton.retrofit2.adapter.rxjava2.HttpException
-import com.lfy.libretrofit.dialog.LoadingDialogHelper
-import com.lfy.libretrofit.exception.ServerResponseException
 import io.reactivex.observers.DisposableObserver
 import org.json.JSONException
 import java.io.InterruptedIOException

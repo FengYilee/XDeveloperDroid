@@ -1,6 +1,6 @@
-package com.lfy.libretrofit.request
+package cn.android.fengyi.net.request
 
-import com.lfy.libretrofit.observer.FileUploadObserver
+import cn.android.fengyi.net.observer.FileUploadObserver
 import okhttp3.MediaType
 import okhttp3.RequestBody
 import okhttp3.ResponseBody

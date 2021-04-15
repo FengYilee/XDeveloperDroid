@@ -1,5 +1,3 @@
-include ':libretrofit'
 include ':library-commons'
 include ':app'
-project(':libretrofit').projectDir = new File(rootDir, 'library-retrofit/')
 rootProject.name = "XDeveloperDroid"

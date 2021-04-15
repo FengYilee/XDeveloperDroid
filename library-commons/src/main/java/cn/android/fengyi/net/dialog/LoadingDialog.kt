@@ -1,12 +1,12 @@
-package com.lfy.libretrofit.dialog
+package cn.android.fengyi.net.dialog
 
 import android.content.Context
 import android.text.TextUtils
 import android.view.Gravity
 import android.view.View
 import android.view.WindowManager
-import com.lfy.libretrofit.R
-import com.lfy.libretrofit.databinding.ViewDialogLoadingBinding
+import cn.android.fengyi.commons.R
+import cn.android.fengyi.commons.databinding.ViewDialogLoadingBinding
 
 /**
  * Created by FengYi.Lee<fengyi.li></fengyi.li>@hotmail.com> on 2020/12/15.

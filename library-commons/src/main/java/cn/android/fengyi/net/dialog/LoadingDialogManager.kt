@@ -1,7 +1,6 @@
-package com.lfy.libretrofit.dialog
+package cn.android.fengyi.net.dialog
 
 import android.app.Dialog
-import com.lfy.libretrofit.dialog.LoadingDialogHelper.OnShowDialogListener
 
 /**
  * Created by FengYi.Lee<fengyi.li></fengyi.li>@hotmail.com> on 2020/12/15.
@@ -36,7 +35,7 @@ class LoadingDialogManager private constructor() {
     }
 
     init {
-        LoadingDialogHelper.instance?.setOnShowDialogListener(object : OnShowDialogListener {
+        LoadingDialogHelper.instance?.setOnShowDialogListener(object : LoadingDialogHelper.OnShowDialogListener {
             override fun onShow(isShow: Boolean, text: String?) {
                 if (dialog != null) {
                     if (isShow) {

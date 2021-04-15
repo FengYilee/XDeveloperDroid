@@ -1,4 +1,4 @@
-package com.lfy.libretrofit.observer
+package cn.android.fengyi.net.observer
 
 import io.reactivex.observers.DefaultObserver
 import okhttp3.ResponseBody

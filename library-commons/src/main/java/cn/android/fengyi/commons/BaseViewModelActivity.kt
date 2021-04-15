@@ -7,6 +7,8 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import cn.android.fengyi.commons.viewmodel.BaseViewModel
 import cn.android.fengyi.commons.viewmodel.ViewBehavior
+import cn.android.fengyi.net.dialog.LoadingDialog
+import cn.android.fengyi.net.dialog.LoadingDialogManager
 import com.hjq.permissions.OnPermissionCallback
 import com.hjq.permissions.XXPermissions
 import me.shihao.library.XStatusBarHelper
@@ -34,6 +36,7 @@ abstract class BaseViewModelActivity<B : ViewDataBinding,VM:BaseViewModel> : Bas
         initialize(savedInstanceState)
         initInternalObserver()
         initStatusBar()
+        LoadingDialogManager.instance?.setDialog(LoadingDialog(this))
     }
 
     fun getActivityViewModel():VM{
