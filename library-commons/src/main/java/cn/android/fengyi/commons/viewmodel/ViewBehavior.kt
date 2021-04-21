@@ -27,7 +27,7 @@ interface ViewBehavior {
     /**
      * 不带参数得页面跳转
      */
-    fun navigate(page:Any)
+    fun navigate(page:Any?)
 
     /**
      * 返回键点击

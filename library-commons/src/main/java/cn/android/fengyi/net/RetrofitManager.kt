@@ -8,6 +8,7 @@ import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.converter.scalars.ScalarsConverterFactory
+import java.net.Proxy
 import java.util.concurrent.TimeUnit
 
 /**
@@ -37,6 +38,7 @@ internal class RetrofitManager private constructor() {
         } else {
             builder.addConverterFactory(ScalarsConverterFactory.create())
         }
+
         return builder.build()
     }
 
@@ -46,6 +48,7 @@ internal class RetrofitManager private constructor() {
         builder.connectTimeout(provider.configConnectTimeoutMills(), TimeUnit.MILLISECONDS)
         builder.readTimeout(provider.configReadTimeoutMills(), TimeUnit.MILLISECONDS)
         builder.writeTimeout(provider.configReadTimeoutMills(), TimeUnit.MILLISECONDS)
+        builder.proxy(Proxy.NO_PROXY)
 
         val loggingInterceptor = HttpLoggingInterceptor(HttpLoggingInterceptor.Logger { message -> Log.d("OkHttp", message) })
         loggingInterceptor.level = provider.configLogLevel()

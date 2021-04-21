@@ -2,6 +2,7 @@ package cn.android.fengyi.commons
 
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -9,6 +10,7 @@ import cn.android.fengyi.commons.viewmodel.BaseViewModel
 import cn.android.fengyi.commons.viewmodel.ViewBehavior
 import cn.android.fengyi.net.dialog.LoadingDialog
 import cn.android.fengyi.net.dialog.LoadingDialogManager
+import com.alibaba.android.arouter.launcher.ARouter
 import com.hjq.permissions.OnPermissionCallback
 import com.hjq.permissions.XXPermissions
 import me.shihao.library.XStatusBarHelper
@@ -97,8 +99,13 @@ abstract class BaseViewModelActivity<B : ViewDataBinding,VM:BaseViewModel> : Bas
     }
 
     protected open fun initStatusBar() {
-        XStatusBarHelper.tintStatusBar(this, resources.getColor(R.color.design_default_color_primary))
+        var defaultColor = R.color.design_default_color_on_primary
+        if (stateBarColor() != 0)
+            defaultColor = stateBarColor()
+        XStatusBarHelper.tintStatusBar(this, resources.getColor(defaultColor))
     }
+
+    protected open fun stateBarColor():Int = 0
 
     override fun showLoadingUI(isShow: Boolean) {
 
@@ -109,11 +116,16 @@ abstract class BaseViewModelActivity<B : ViewDataBinding,VM:BaseViewModel> : Bas
     }
 
     override fun showToast(map: Map<String, *>) {
-
+        Toast.makeText(this,map[BaseConstants.TOAST_KEY_CONTENT].toString(),Toast.LENGTH_LONG).show()
     }
 
-    override fun navigate(page: Any) {
-
+    override fun navigate(page: Any?) {
+        page?.let {
+            ARouter.getInstance()
+                .build(it.toString())
+                .navigation()
+            finish()
+        }
     }
 
     override fun backPress(arg: Any?) {

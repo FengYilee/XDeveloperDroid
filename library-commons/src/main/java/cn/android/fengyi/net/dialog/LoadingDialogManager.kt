@@ -35,7 +35,8 @@ class LoadingDialogManager private constructor() {
     }
 
     init {
-        LoadingDialogHelper.instance?.setOnShowDialogListener(object : LoadingDialogHelper.OnShowDialogListener {
+        LoadingDialogHelper.instance?.setOnShowDialogListener(object :
+            LoadingDialogHelper.OnShowDialogListener {
             override fun onShow(isShow: Boolean, text: String?) {
                 if (dialog != null) {
                     if (isShow) {

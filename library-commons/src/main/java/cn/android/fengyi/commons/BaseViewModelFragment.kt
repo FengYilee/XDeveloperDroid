@@ -83,4 +83,28 @@ abstract class BaseViewModelFragment<B : ViewDataBinding,VM:BaseViewModel> : Bas
     }
 
     abstract fun createViewModel(): VM
+
+    override fun showLoadingUI(isShow: Boolean) {
+
+    }
+
+    override fun showEmptyUI(isShow: Boolean) {
+
+    }
+
+    override fun showToast(map: Map<String, *>) {
+
+    }
+
+    override fun navigate(page: Any?) {
+
+    }
+
+    override fun backPress(arg: Any?) {
+
+    }
+
+    override fun finishPage(arg: Any?) {
+
+    }
 }

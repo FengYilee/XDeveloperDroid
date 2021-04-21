@@ -81,7 +81,7 @@ abstract class BaseViewModel : ViewModel(), ViewModelLifecycle, ViewBehavior {
         toastEvent.postValue(map)
     }
 
-    override fun navigate(page: Any) {
+    override fun navigate(page: Any?) {
         pageNavigationEvent.postValue(page)
     }
 
