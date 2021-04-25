@@ -49,8 +49,8 @@ abstract class BaseRecyclerAdapter<T>:RecyclerView.Adapter<BaseViewHolder>() {
         return items
     }
 
-    fun setItems(items: MutableList<T>?) {
-        this.items = items
+    fun addItems(items: MutableList<T>?) {
+        this.items?.addAll(items!!)
         notifyDataSetChanged()
     }
 

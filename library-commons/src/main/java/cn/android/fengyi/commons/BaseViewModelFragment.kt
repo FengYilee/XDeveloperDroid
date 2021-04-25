@@ -47,7 +47,7 @@ abstract class BaseViewModelFragment<B : ViewDataBinding,VM:BaseViewModel> : Bas
         lifecycle.removeObserver(viewModel)
     }
 
-    protected fun initInternalObserver(){
+    protected open fun initInternalObserver(){
         viewModel.loadingEvent.observe(this, Observer<Boolean> {
             showLoadingUI(it)
         })
