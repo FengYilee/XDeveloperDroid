@@ -14,6 +14,11 @@ fun <T>bindingRecyclerAdapter(recyclerView: RecyclerView,adapter:T){
     }
 }
 
+@BindingAdapter("bindLayoutManager")
+fun <T>bindLayoutManager(recyclerView: RecyclerView,layoutManager:RecyclerView.LayoutManager){
+    recyclerView.layoutManager = layoutManager
+}
+
 @BindingAdapter(
     value = ["refreshing", "moreLoading", "hasMore"],
     requireAll = false

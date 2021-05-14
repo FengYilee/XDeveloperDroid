@@ -30,7 +30,7 @@ abstract class BaseBindingAddGridRecyclerAdapter<VB_ADD: ViewDataBinding,VB_ITEM
         return BaseViewHolder(itemView)
     }
 
-    protected fun <VB:ViewDataBinding> bindingInflate(
+    protected open fun <VB:ViewDataBinding> bindingInflate(
             layoutId:Int,
             parent: ViewGroup,
             attachToParent:Boolean = false

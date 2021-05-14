@@ -128,11 +128,21 @@ abstract class BaseViewModelActivity<B : ViewDataBinding,VM:BaseViewModel> : Bas
         }
     }
 
-    override fun backPress(arg: Any?) {
+    protected open fun navigate(page: Any?, bundle: Bundle) {
+        page?.let {
+            ARouter.getInstance()
+                .build(it.toString())
+                .with(bundle)
+                .navigation()
+            finish()
+        }
+    }
 
+    override fun backPress(arg: Any?) {
+        finish()
     }
 
     override fun finishPage(arg: Any?) {
-
+        finish()
     }
 }
