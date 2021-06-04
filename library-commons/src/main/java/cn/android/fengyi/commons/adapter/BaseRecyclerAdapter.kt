@@ -69,6 +69,17 @@ abstract class BaseRecyclerAdapter<T>:RecyclerView.Adapter<BaseViewHolder>() {
         notifyDataSetChanged()
     }
 
+    fun replaceItems(items: MutableList<T>?){
+        if (!this.items.isNullOrEmpty()){
+            this.items!!.clear()
+            this.addItems(items)
+        } else {
+            this.items = ArrayList<T>()
+            this.addItems(items)
+        }
+        notifyDataSetChanged()
+    }
+
     fun refreshItem(position: Int, item: T) {
         if (!items.isNullOrEmpty() && itemCount > position) {
             items!!.set(position, item)

@@ -11,6 +11,10 @@ class LoadingDialogManager private constructor() {
         this.dialog = dialog
     }
 
+    fun removeDialog(){
+        this.dialog = null
+    }
+
     fun show() {
         if (dialog != null && !dialog!!.isShowing) {
             dialog!!.show()

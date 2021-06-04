@@ -1,5 +1,6 @@
 package cn.android.fengyi.commons
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
@@ -38,11 +39,20 @@ abstract class BaseViewModelActivity<B : ViewDataBinding,VM:BaseViewModel> : Bas
         initialize(savedInstanceState)
         initInternalObserver()
         initStatusBar()
-        LoadingDialogManager.instance?.setDialog(LoadingDialog(this))
     }
 
     fun getActivityViewModel():VM{
         return viewModel
+    }
+
+    override fun onResume() {
+        super.onResume()
+        LoadingDialogManager.instance?.setDialog(LoadingDialog(this))
+    }
+
+    override fun onPause() {
+        super.onPause()
+        LoadingDialogManager.instance?.removeDialog()
     }
 
     override fun onDestroy() {
