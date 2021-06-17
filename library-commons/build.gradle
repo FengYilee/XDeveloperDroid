@@ -77,4 +77,5 @@ dependencies {
     //ROUTER
     implementation "com.alibaba:arouter-api:$router_version"
     kapt "com.alibaba:arouter-compiler:$router_version"
+    implementation 'io.github.jeremyliao:live-event-bus-x:1.8.0'
 }

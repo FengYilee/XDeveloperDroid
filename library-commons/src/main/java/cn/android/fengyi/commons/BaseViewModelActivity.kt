@@ -1,8 +1,10 @@
 package cn.android.fengyi.commons
 
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.Toast
 import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.Observer
@@ -109,10 +111,13 @@ abstract class BaseViewModelActivity<B : ViewDataBinding,VM:BaseViewModel> : Bas
     }
 
     protected open fun initStatusBar() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
+            window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+        }
         var defaultColor = R.color.design_default_color_on_primary
         if (stateBarColor() != 0)
             defaultColor = stateBarColor()
-        XStatusBarHelper.tintStatusBar(this, resources.getColor(defaultColor))
+        XStatusBarHelper.tintStatusBar(this, resources.getColor(defaultColor),0.0f)
     }
 
     protected open fun stateBarColor():Int = 0
