@@ -97,6 +97,7 @@ abstract class BaseViewModel : ViewModel(), ViewModelLifecycle, ViewBehavior {
         showToast(str,null)
     }
 
+
     private fun showToast(str: String, duration: Int?) {
         val map = HashMap<String, Any>().apply {
             put(

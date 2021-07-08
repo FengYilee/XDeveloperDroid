@@ -1,5 +1,6 @@
 package cn.android.fengyi.commons
 
+import android.view.LayoutInflater
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import cn.android.fengyi.commons.adapter.BaseBindingRecyclerAdapter

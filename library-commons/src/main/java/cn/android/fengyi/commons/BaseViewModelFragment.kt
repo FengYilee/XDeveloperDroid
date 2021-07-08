@@ -95,7 +95,7 @@ abstract class BaseViewModelFragment<B : ViewDataBinding,VM:BaseViewModel> : Bas
     }
 
     override fun showToast(map: Map<String, *>) {
-
+        Toast.makeText(activity,map[BaseConstants.TOAST_KEY_CONTENT].toString(), Toast.LENGTH_LONG).show()
     }
 
     override fun navigate(page: Any?) {
