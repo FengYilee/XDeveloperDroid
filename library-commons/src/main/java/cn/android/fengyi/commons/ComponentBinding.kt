@@ -37,7 +37,7 @@ fun bindSmartRefreshLayout(
 }
 
 @BindingAdapter(
-    value = ["autoRefresh"]
+    value = ["onSmartAutoRefresh"]
 )
 fun bindSmartRefreshLayout(
     smartLayout: SmartRefreshLayout,
