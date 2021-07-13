@@ -6,6 +6,8 @@ import androidx.annotation.StringRes
 import androidx.lifecycle.*
 import cn.android.fengyi.commons.BaseConstants
 import cn.android.fengyi.commons.SingleLiveEvent
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.disposables.Disposable
 import java.util.*
 import kotlin.collections.HashMap
 
@@ -36,6 +38,7 @@ abstract class BaseViewModel : ViewModel(), ViewModelLifecycle, ViewBehavior {
         private set
 
     private lateinit var lifecycleOwner: LifecycleOwner
+    private var mCompositeDisposable: CompositeDisposable ?=null
 
 
     @SuppressLint("StaticFieldLeak")
@@ -66,7 +69,10 @@ abstract class BaseViewModel : ViewModel(), ViewModelLifecycle, ViewBehavior {
     }
 
     override fun onDestroy() {
-
+        mCompositeDisposable?.apply {
+            this.clear()
+        }
+        this.mCompositeDisposable = null
     }
 
     override fun showLoadingUI(isShow: Boolean) {
@@ -140,6 +146,13 @@ abstract class BaseViewModel : ViewModel(), ViewModelLifecycle, ViewBehavior {
     }
 
     protected fun getUUID():String = UUID.randomUUID().toString().replace("-","")
+
+    protected fun addDispose(disposable: Disposable){
+        if (mCompositeDisposable == null){
+            mCompositeDisposable = CompositeDisposable()
+        }
+        mCompositeDisposable?.add(disposable)
+    }
 
     companion object{
         @JvmStatic
