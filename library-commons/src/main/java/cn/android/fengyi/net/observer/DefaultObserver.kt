@@ -5,9 +5,9 @@ import android.widget.Toast
 import cn.android.fengyi.net.dialog.LoadingDialogHelper
 import cn.android.fengyi.net.exception.ServerResponseException
 import com.google.gson.JsonParseException
-import com.jakewharton.retrofit2.adapter.rxjava2.HttpException
 import io.reactivex.observers.DisposableObserver
 import org.json.JSONException
+import retrofit2.HttpException
 import java.io.InterruptedIOException
 import java.net.ConnectException
 import java.net.UnknownHostException
@@ -62,7 +62,7 @@ abstract class DefaultObserver<T> : DisposableObserver<T> {
         } else if (e is ServerResponseException) {
             onFail(e.message)
         } else {
-            onFail(e.message)
+            onException(ExceptionReason.UNKNOWN_ERROR)
         }
     }
 
@@ -85,7 +85,7 @@ abstract class DefaultObserver<T> : DisposableObserver<T> {
      * 服务器返回数据，但响应码不为200
      *
      */
-    private fun onFail(message: String?) {
+    protected open fun onFail(message: String?) {
         Toast.makeText(mContext, message, Toast.LENGTH_LONG).show()
     }
 
@@ -94,7 +94,7 @@ abstract class DefaultObserver<T> : DisposableObserver<T> {
      *
      * @param reason
      */
-    private fun onException(reason: ExceptionReason?) {
+    protected open fun onException(reason: ExceptionReason?) {
         when (reason) {
             ExceptionReason.CONNECT_ERROR -> Toast.makeText(mContext, "网络开了点小差,请检查您的网络。", Toast.LENGTH_LONG).show()
             ExceptionReason.CONNECT_TIMEOUT -> Toast.makeText(mContext, "与服务连接超时。", Toast.LENGTH_LONG).show()
