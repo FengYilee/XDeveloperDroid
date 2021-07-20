@@ -62,7 +62,7 @@ abstract class DefaultObserver<T> : DisposableObserver<T> {
         } else if (e is ServerResponseException) {
             onFail(e.message)
         } else {
-            onException(ExceptionReason.UNKNOWN_ERROR)
+            onFail(e.message)
         }
     }
 
