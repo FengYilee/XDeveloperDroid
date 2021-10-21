@@ -1,11 +1,13 @@
 package cn.android.fengyi.commons
 
 import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
@@ -50,23 +52,23 @@ abstract class BaseViewModelFragment<B : ViewDataBinding,VM:BaseViewModel> : Bas
     }
 
     protected open fun initInternalObserver(){
-        viewModel.loadingEvent.observe(this, Observer<Boolean> {
+        viewModel.loadingEvent.observe(viewLifecycleOwner, Observer<Boolean> {
             showLoadingUI(it)
         })
 
-        viewModel.emptyPageEvent.observe(this, Observer {
+        viewModel.emptyPageEvent.observe(viewLifecycleOwner, Observer {
             showEmptyUI(it)
         })
 
-        viewModel.toastEvent.observe(this, Observer {
+        viewModel.toastEvent.observe(viewLifecycleOwner, Observer {
             showToast(it)
         })
 
-        viewModel.backPressEvent.observe(this, Observer {
+        viewModel.backPressEvent.observe(viewLifecycleOwner, Observer {
             backPress(it)
         })
 
-        viewModel.finishPageEvent.observe(this, Observer {
+        viewModel.finishPageEvent.observe(viewLifecycleOwner, Observer {
             finishPage(it)
         })
 
@@ -99,14 +101,18 @@ abstract class BaseViewModelFragment<B : ViewDataBinding,VM:BaseViewModel> : Bas
     }
 
     override fun navigate(page: Any?) {
-
+        page?.let {
+            ARouter.getInstance()
+                .build(it.toString())
+                .navigation()
+        }
     }
 
-    override fun backPress(arg: Any?) {
-
+    override fun backPress(page: Any?) {
+        requireActivity().finish()
     }
 
     override fun finishPage(arg: Any?) {
-
+        requireActivity().finish()
     }
 }

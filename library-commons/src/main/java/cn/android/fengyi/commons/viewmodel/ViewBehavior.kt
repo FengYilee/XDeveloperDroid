@@ -30,6 +30,7 @@ interface ViewBehavior {
      */
     fun navigate(page:Any?)
 
+
     /**
      * 返回键点击
      */

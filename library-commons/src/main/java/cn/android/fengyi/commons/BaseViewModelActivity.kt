@@ -139,7 +139,6 @@ abstract class BaseViewModelActivity<B : ViewDataBinding,VM:BaseViewModel> : Bas
             ARouter.getInstance()
                 .build(it.toString())
                 .navigation()
-            finish()
         }
     }
 
@@ -149,9 +148,9 @@ abstract class BaseViewModelActivity<B : ViewDataBinding,VM:BaseViewModel> : Bas
                 .build(it.toString())
                 .with(bundle)
                 .navigation()
-            finish()
         }
     }
+
 
     override fun backPress(arg: Any?) {
         finish()
