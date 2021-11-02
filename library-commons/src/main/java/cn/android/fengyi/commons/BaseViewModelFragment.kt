@@ -1,16 +1,11 @@
 package cn.android.fengyi.commons
 
-import android.app.Activity
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
-import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import cn.android.fengyi.commons.viewmodel.BaseViewModel
@@ -24,7 +19,8 @@ import com.hjq.permissions.XXPermissions
  * 创建人： Fengyi.Li
  * 创建时间：2021/3/3 9:43
  */
-abstract class BaseViewModelFragment<B : ViewDataBinding,VM:BaseViewModel> : BaseBindingFragment<B>(),ViewBehavior {
+abstract class BaseViewModelFragment<B : ViewDataBinding,VM: BaseViewModel> : BaseBindingFragment<B>(),
+    ViewBehavior {
 
     protected lateinit var viewModel: VM
             private set
@@ -39,9 +35,9 @@ abstract class BaseViewModelFragment<B : ViewDataBinding,VM:BaseViewModel> : Bas
         return rootView
     }
 
-    protected fun injectViewModel(){
+    private fun injectViewModel(){
         val vm = createViewModel()
-        viewModel = ViewModelProvider(this,BaseViewModel.createViewModelFactory(vm)).get(vm::class.java)
+        viewModel = ViewModelProvider(this, BaseViewModel.createViewModelFactory(vm)).get(vm::class.java)
         viewModel.application = activity!!.application
         lifecycle.addObserver(viewModel)
     }
@@ -66,6 +62,14 @@ abstract class BaseViewModelFragment<B : ViewDataBinding,VM:BaseViewModel> : Bas
 
         viewModel.backPressEvent.observe(viewLifecycleOwner, Observer {
             backPress(it)
+        })
+
+        viewModel.pageNavigationEvent.observe(viewLifecycleOwner, Observer {
+            navigate(it)
+        })
+
+        viewModel.pageNavigationMapEvent.observe(viewLifecycleOwner, Observer {
+            navigate(it)
         })
 
         viewModel.finishPageEvent.observe(viewLifecycleOwner, Observer {
@@ -108,11 +112,20 @@ abstract class BaseViewModelFragment<B : ViewDataBinding,VM:BaseViewModel> : Bas
         }
     }
 
-    override fun backPress(page: Any?) {
-        requireActivity().finish()
+    override fun backPress(arg: Any?) {
+
     }
 
-    override fun finishPage(arg: Any?) {
-        requireActivity().finish()
+    override fun finishPage(page: Any?) {
+
+    }
+
+    override fun navigate(map: Map<String, *>) {
+        val page = map["page"]
+        val bundle = map["bundle"] as Bundle
+        ARouter.getInstance()
+            .build(page.toString())
+            .with(bundle)
+            .navigation()
     }
 }

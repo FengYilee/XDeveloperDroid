@@ -30,6 +30,10 @@ interface ViewBehavior {
      */
     fun navigate(page:Any?)
 
+    /**
+     * 带参数得页面跳转
+     */
+    fun navigate(map: Map<String, *>)
 
     /**
      * 返回键点击

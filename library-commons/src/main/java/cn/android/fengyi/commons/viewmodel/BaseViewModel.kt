@@ -2,6 +2,7 @@ package cn.android.fengyi.commons.viewmodel
 
 import android.annotation.SuppressLint
 import android.app.Application
+import android.view.View
 import androidx.annotation.StringRes
 import androidx.lifecycle.*
 import cn.android.fengyi.commons.BaseConstants
@@ -27,6 +28,10 @@ abstract class BaseViewModel : ViewModel(), ViewModelLifecycle, ViewBehavior {
 
     // 不带参数的页面跳转Event
     var pageNavigationEvent = SingleLiveEvent<Any>()
+        private set
+
+    // 带参数的页面跳转Event
+    var pageNavigationMapEvent = SingleLiveEvent<Map<String,*>>()
         private set
 
     // 点击系统返回键Event
@@ -75,6 +80,10 @@ abstract class BaseViewModel : ViewModel(), ViewModelLifecycle, ViewBehavior {
         this.mCompositeDisposable = null
     }
 
+    fun onFinishPage(view: View){
+        finishPage()
+    }
+
     override fun showLoadingUI(isShow: Boolean) {
         loadingEvent.postValue(isShow)
     }
@@ -89,6 +98,10 @@ abstract class BaseViewModel : ViewModel(), ViewModelLifecycle, ViewBehavior {
 
     override fun navigate(page: Any?) {
         pageNavigationEvent.postValue(page)
+    }
+
+    override fun navigate(map: Map<String, *>) {
+        pageNavigationMapEvent.postValue(map)
     }
 
     override fun backPress(arg: Any?) {
@@ -107,8 +120,8 @@ abstract class BaseViewModel : ViewModel(), ViewModelLifecycle, ViewBehavior {
     private fun showToast(str: String, duration: Int?) {
         val map = HashMap<String, Any>().apply {
             put(
-                    BaseConstants.TOAST_KEY_CONTENT_TYPE,
-                    BaseConstants.TOAST_CONTENT_TYPE_STR
+                BaseConstants.TOAST_KEY_CONTENT_TYPE,
+                BaseConstants.TOAST_CONTENT_TYPE_STR
             )
             put(BaseConstants.TOAST_KEY_CONTENT, str)
             if (duration != null) {
@@ -126,8 +139,8 @@ abstract class BaseViewModel : ViewModel(), ViewModelLifecycle, ViewBehavior {
     private fun showToast(@StringRes resId: Int, duration: Int?) {
         val map = HashMap<String, Any>().apply {
             put(
-                    BaseConstants.TOAST_KEY_CONTENT_TYPE,
-                    BaseConstants.TOAST_CONTENT_TYPE_RESID
+                BaseConstants.TOAST_KEY_CONTENT_TYPE,
+                BaseConstants.TOAST_CONTENT_TYPE_RESID
             )
             put(BaseConstants.TOAST_KEY_CONTENT, resId)
             if (duration != null) {
@@ -153,6 +166,7 @@ abstract class BaseViewModel : ViewModel(), ViewModelLifecycle, ViewBehavior {
         }
         mCompositeDisposable?.add(disposable)
     }
+
 
     companion object{
         @JvmStatic

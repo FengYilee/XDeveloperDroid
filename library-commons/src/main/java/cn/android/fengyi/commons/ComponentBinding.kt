@@ -1,18 +1,23 @@
 package cn.android.fengyi.commons
 
-import android.view.LayoutInflater
+import android.annotation.SuppressLint
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import cn.android.fengyi.commons.adapter.BaseBindingRecyclerAdapter
+import cn.android.fengyi.commons.adapter.BaseRecyclerAdapter
 import com.scwang.smart.refresh.layout.SmartRefreshLayout
 import com.scwang.smart.refresh.layout.listener.OnLoadMoreListener
 import com.scwang.smart.refresh.layout.listener.OnRefreshListener
 
+@SuppressLint("NotifyDataSetChanged")
 @BindingAdapter("bindAdapter")
 fun <T>bindingRecyclerAdapter(recyclerView: RecyclerView,adapter:T){
-    if (adapter is BaseBindingRecyclerAdapter<*,*>){
+    if (adapter is BaseBindingRecyclerAdapter<*, *>){
+        recyclerView.adapter = adapter
+    } else if (adapter is BaseRecyclerAdapter<*>){
         recyclerView.adapter = adapter
     }
+    recyclerView.adapter?.notifyDataSetChanged()
 }
 
 @BindingAdapter("bindLayoutManager")

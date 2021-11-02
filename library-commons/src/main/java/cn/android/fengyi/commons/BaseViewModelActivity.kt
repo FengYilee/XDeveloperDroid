@@ -1,6 +1,5 @@
 package cn.android.fengyi.commons
 
-import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
@@ -16,14 +15,14 @@ import cn.android.fengyi.net.dialog.LoadingDialogManager
 import com.alibaba.android.arouter.launcher.ARouter
 import com.hjq.permissions.OnPermissionCallback
 import com.hjq.permissions.XXPermissions
-import me.shihao.library.XStatusBarHelper
 
 /**
  * 类描述：Activity基类
  * 创建人： Fengyi.Li
  * 创建时间：2021/3/2 15:40
  */
-abstract class BaseViewModelActivity<B : ViewDataBinding,VM:BaseViewModel> : BaseBindingActivity<B>(),ViewBehavior {
+abstract class BaseViewModelActivity<B : ViewDataBinding,VM: BaseViewModel> : BaseBindingActivity<B>(),
+    ViewBehavior {
 
     private lateinit var viewModel:VM
     var count = 0
@@ -31,7 +30,7 @@ abstract class BaseViewModelActivity<B : ViewDataBinding,VM:BaseViewModel> : Bas
 
     private fun injectViewModel(){
         val vm = createViewModel()
-        viewModel = ViewModelProvider(this,BaseViewModel.createViewModelFactory(vm)).get(vm::class.java)
+        viewModel = ViewModelProvider(this, BaseViewModel.createViewModelFactory(vm)).get(vm::class.java)
         viewModel.application = application
         lifecycle.addObserver(viewModel)
     }
@@ -80,6 +79,10 @@ abstract class BaseViewModelActivity<B : ViewDataBinding,VM:BaseViewModel> : Bas
             navigate(it)
         })
 
+        viewModel.pageNavigationMapEvent.observe(this, Observer {
+            navigate(it)
+        })
+
         viewModel.backPressEvent.observe(this, Observer {
             backPress(it)
         })
@@ -117,7 +120,7 @@ abstract class BaseViewModelActivity<B : ViewDataBinding,VM:BaseViewModel> : Bas
         var defaultColor = R.color.design_default_color_on_primary
         if (stateBarColor() != 0)
             defaultColor = stateBarColor()
-        XStatusBarHelper.tintStatusBar(this, resources.getColor(defaultColor),0.0f)
+//        XStatusBarHelper.tintStatusBar(this, resources.getColor(defaultColor),0.0f)
     }
 
     protected open fun stateBarColor():Int = 0
@@ -151,6 +154,14 @@ abstract class BaseViewModelActivity<B : ViewDataBinding,VM:BaseViewModel> : Bas
         }
     }
 
+    override fun navigate(map: Map<String, *>) {
+        val page = map["page"]
+        val bundle = map["bundle"] as Bundle
+        ARouter.getInstance()
+            .build(page.toString())
+            .with(bundle)
+            .navigation()
+    }
 
     override fun backPress(arg: Any?) {
         finish()
@@ -159,4 +170,6 @@ abstract class BaseViewModelActivity<B : ViewDataBinding,VM:BaseViewModel> : Bas
     override fun finishPage(arg: Any?) {
         finish()
     }
+
+
 }
