@@ -1,3 +1,4 @@
 include ':library-commons'
 include ':app'
 rootProject.name = "XDeveloperDroid"
+include ':library-components'
