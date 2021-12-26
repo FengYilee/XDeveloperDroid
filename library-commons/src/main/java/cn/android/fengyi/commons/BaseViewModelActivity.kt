@@ -15,6 +15,7 @@ import cn.android.fengyi.net.dialog.LoadingDialogManager
 import com.alibaba.android.arouter.launcher.ARouter
 import com.hjq.permissions.OnPermissionCallback
 import com.hjq.permissions.XXPermissions
+import me.shihao.library.XStatusBarHelper
 
 /**
  * 类描述：Activity基类
@@ -120,7 +121,7 @@ abstract class BaseViewModelActivity<B : ViewDataBinding,VM: BaseViewModel> : Ba
         var defaultColor = R.color.design_default_color_on_primary
         if (stateBarColor() != 0)
             defaultColor = stateBarColor()
-//        XStatusBarHelper.tintStatusBar(this, resources.getColor(defaultColor),0.0f)
+        XStatusBarHelper.tintStatusBar(this, resources.getColor(defaultColor),0.0f)
     }
 
     protected open fun stateBarColor():Int = 0
