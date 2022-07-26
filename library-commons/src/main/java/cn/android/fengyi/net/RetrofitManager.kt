@@ -53,6 +53,8 @@ internal class RetrofitManager private constructor() {
         val loggingInterceptor = HttpLoggingInterceptor(HttpLoggingInterceptor.Logger { message -> Log.d("OkHttp", message) })
         loggingInterceptor.level = provider.configLogLevel()
         builder.addInterceptor(loggingInterceptor)
+
+
         if (provider.configCommonHeaders() != null) {
             builder.addInterceptor { chain ->
                 val builderHeader = chain.request().newBuilder()

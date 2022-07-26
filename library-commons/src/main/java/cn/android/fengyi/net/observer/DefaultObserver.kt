@@ -78,7 +78,7 @@ abstract class DefaultObserver<T> : DisposableObserver<T> {
     abstract fun onSuccess(t: T)
 
     fun onFinish() {
-
+        if (isShowDialog) LoadingDialogHelper.instance?.cancelDialog()
     }
 
     /**

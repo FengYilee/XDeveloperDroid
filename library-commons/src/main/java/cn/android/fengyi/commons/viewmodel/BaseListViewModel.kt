@@ -2,6 +2,8 @@ package cn.android.fengyi.commons.viewmodel
 
 import androidx.databinding.ObservableInt
 import androidx.lifecycle.MutableLiveData
+import com.scwang.smart.refresh.layout.api.RefreshLayout
+import com.scwang.smart.refresh.layout.listener.OnRefreshLoadMoreListener
 
 abstract class BaseListViewModel :BaseViewModel(){
 
@@ -9,6 +11,7 @@ abstract class BaseListViewModel :BaseViewModel(){
     val moreLoading = MutableLiveData<Boolean>()
     val hasMore = MutableLiveData<Boolean>()
     val autoRefreshEvent = MutableLiveData<Boolean>()
+    val onRefreshLoadMoreListener = OnViewModelRefreshLoadMoreListener()
 
     var page = 1
     var pageSize = 20
@@ -21,9 +24,11 @@ abstract class BaseListViewModel :BaseViewModel(){
     }
 
     fun refresh() {
+        hasMore.value = true
         refreshOrLoadMore = 0
         refreshing.value = true
         page = 1
+        autoRefresh()
         loadData()
     }
 
@@ -36,12 +41,25 @@ abstract class BaseListViewModel :BaseViewModel(){
 
 
     fun autoRefresh() {
-        autoRefreshEvent.value = true
+        autoRefreshEvent.postValue(true)
     }
 
     abstract fun loadData()
 
     fun finishRefresh(){
         refreshOrLoadMoreEvent.postValue(refreshOrLoadMore)
+        refreshing.value = false
+        moreLoading.value = false
+    }
+
+    inner class OnViewModelRefreshLoadMoreListener: OnRefreshLoadMoreListener{
+        override fun onRefresh(refreshLayout: RefreshLayout) {
+            refresh()
+        }
+
+        override fun onLoadMore(refreshLayout: RefreshLayout) {
+            loadMore()
+        }
+
     }
 }

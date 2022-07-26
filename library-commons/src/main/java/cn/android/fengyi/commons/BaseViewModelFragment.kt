@@ -1,5 +1,7 @@
 package cn.android.fengyi.commons
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -101,7 +103,7 @@ abstract class BaseViewModelFragment<B : ViewDataBinding,VM: BaseViewModel> : Ba
     }
 
     override fun showToast(map: Map<String, *>) {
-        Toast.makeText(activity,map[BaseConstants.TOAST_KEY_CONTENT].toString(), Toast.LENGTH_LONG).show()
+        Toast.makeText(activity,map[BaseConstants.TOAST_KEY_CONTENT].toString(), Toast.LENGTH_SHORT).show()
     }
 
     override fun navigate(page: Any?) {
@@ -113,11 +115,14 @@ abstract class BaseViewModelFragment<B : ViewDataBinding,VM: BaseViewModel> : Ba
     }
 
     override fun backPress(arg: Any?) {
-
+        activity?.finish()
     }
 
-    override fun finishPage(page: Any?) {
-
+    override fun finishPage(arg: Any?) {
+        if (arg is Intent){
+            activity?.setResult(Activity.RESULT_OK,arg)
+        }
+        activity?.finish()
     }
 
     override fun navigate(map: Map<String, *>) {

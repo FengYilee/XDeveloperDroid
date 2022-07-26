@@ -1,5 +1,6 @@
 package cn.android.fengyi.commons
 
+import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
@@ -8,14 +9,14 @@ import android.widget.Toast
 import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import com.alibaba.android.arouter.facade.Postcard
 import cn.android.fengyi.commons.viewmodel.BaseViewModel
 import cn.android.fengyi.commons.viewmodel.ViewBehavior
-import cn.android.fengyi.net.dialog.LoadingDialog
-import cn.android.fengyi.net.dialog.LoadingDialogManager
+import cn.android.fengyi.dialog.LoadingDialog
+import cn.android.fengyi.dialog.LoadingDialogManager
 import com.alibaba.android.arouter.launcher.ARouter
 import com.hjq.permissions.OnPermissionCallback
 import com.hjq.permissions.XXPermissions
-import me.shihao.library.XStatusBarHelper
 
 /**
  * 类描述：Activity基类
@@ -121,7 +122,7 @@ abstract class BaseViewModelActivity<B : ViewDataBinding,VM: BaseViewModel> : Ba
         var defaultColor = R.color.design_default_color_on_primary
         if (stateBarColor() != 0)
             defaultColor = stateBarColor()
-        XStatusBarHelper.tintStatusBar(this, resources.getColor(defaultColor),0.0f)
+//        XStatusBarHelper.tintStatusBar(this, resources.getColor(defaultColor),0.0f)
     }
 
     protected open fun stateBarColor():Int = 0
@@ -157,11 +158,21 @@ abstract class BaseViewModelActivity<B : ViewDataBinding,VM: BaseViewModel> : Ba
 
     override fun navigate(map: Map<String, *>) {
         val page = map["page"]
-        val bundle = map["bundle"] as Bundle
-        ARouter.getInstance()
+        val requestCode:Any ?= map["requestCode"]
+        val bundle = map["bundle"] as Bundle?
+
+        val postcard = ARouter.getInstance()
             .build(page.toString())
-            .with(bundle)
-            .navigation()
+
+        if (bundle != null){
+            postcard.with(bundle)
+        }
+
+        if (requestCode != null && requestCode is Int){
+            postcard.navigation(this,requestCode)
+        } else{
+            postcard.navigation()
+        }
     }
 
     override fun backPress(arg: Any?) {
@@ -169,6 +180,9 @@ abstract class BaseViewModelActivity<B : ViewDataBinding,VM: BaseViewModel> : Ba
     }
 
     override fun finishPage(arg: Any?) {
+        if (arg is Intent){
+            setResult(RESULT_OK,arg)
+        }
         finish()
     }
 

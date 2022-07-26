@@ -8,7 +8,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import cn.android.fengyi.commons.viewmodel.ViewBehavior
 
-abstract class BaseBindingActivity<B:ViewDataBinding>:AppCompatActivity(), ViewBehavior {
+abstract class BaseBindingActivity<B:ViewDataBinding>: AppCompatActivity(), ViewBehavior {
 
     lateinit var mBinding: B
 
